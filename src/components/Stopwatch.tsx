@@ -1,8 +1,15 @@
 import React, {useState, useEffect, useRef } from "react";
-import { stopwatchStyles } from "./styles/stopwatchStyle";
+import { stopwatchStyles } from "../styles/stopwatchStyle";
 import { TouchableOpacity, View, Text } from "react-native";
 
-function Stopwatch(){
+
+interface StopwatchProps {
+    id: string;
+    resetSignal: boolean;
+    onDelete: () => void;
+}
+ 
+function Stopwatch({ onDelete, resetSignal }: StopwatchProps){
     const [isRunning, setIsRunning] = useState(false);
     const [elapsedTime, setElapsedTime] = useState(0);
     const intervalIdRef = useRef<NodeJS.Timeout | null>(null);
@@ -22,6 +29,12 @@ function Stopwatch(){
         }
     },[isRunning]);
 
+    useEffect(() => {
+        if (resetSignal) {
+            reset();
+        }
+    }, [resetSignal]);
+
     function start(){
         setIsRunning(true);
         startTimeRef.current = Date.now() - elapsedTime;
@@ -32,11 +45,12 @@ function Stopwatch(){
         setIsRunning(false);
         
     }
+
     function reset() {
         setElapsedTime(0);
         setIsRunning(false);
-        
     }
+
     function formatTime(){
 
         let hours = Math.floor(elapsedTime / (1000 * 60 * 60));
@@ -69,6 +83,10 @@ function Stopwatch(){
 
                 <TouchableOpacity onPress={reset}>
                     <Text>reset</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={onDelete} style={stopwatchStyles.button}>
+                    <Text>Delete</Text>
                 </TouchableOpacity>
 
 

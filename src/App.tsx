@@ -1,7 +1,11 @@
 import React from 'react';
-import Stopwatch from './Stopwatch';
+import { View } from 'react-native';
+import Stopwatch from './components/Stopwatch';
+import StopwatchManager from './screens/StopwatchManager';
 
 function App() {
-  return <Stopwatch />;
+  return <View>
+      <StopwatchManager/>
+    </View>;
 }
 export default App;
