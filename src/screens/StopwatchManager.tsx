@@ -1,6 +1,8 @@
 import {useState }  from "react";
 import Stopwatch from "../components/Stopwatch";
-import { Button, ScrollView, View } from "react-native";
+import { Button, ScrollView, View, Text, Touchable, TouchableOpacity } from "react-native";
+import { stopwatchStyles } from "../styles/stopwatchStyle";
+import { playClickSound } from "../utils/soundUtil";
 
 
 function StopwatchManager(){
@@ -24,13 +26,23 @@ function StopwatchManager(){
   }
 
     return (
-    <View style={{ flex: 1, padding: 20 }}>
-      <Button title="Add Timer" onPress={addTimer} />
-      <Button title="Reset All" onPress={resetAllTimers}/>
+    <View style={stopwatchStyles.container}>
+      <Text style={stopwatchStyles.titleMain}> STOPWATCH MANAGER</Text>
+      
+      <View style={stopwatchStyles.addAndReset}>
+        <TouchableOpacity style={[stopwatchStyles.button, stopwatchStyles.addButton]} onPress={() => { playClickSound();addTimer();}}>
+          <Text style={stopwatchStyles.textStyle}>Add Timer</Text>
+
+        </TouchableOpacity>
+        <TouchableOpacity style={[stopwatchStyles.button, stopwatchStyles.resetAllButton]} onPress={() => { playClickSound();resetAllTimers();}}>
+          <Text style={stopwatchStyles.textStyle}>Reset All</Text>
+
+        </TouchableOpacity>
+      </View>
      
       <ScrollView>
         {timers.map(id => (
-          <Stopwatch key={id} id={id} resetSignal={resetAllSignal} onDelete={() => deleteTimer(id)} />
+          <Stopwatch key={id} id={id} resetSignal={resetAllSignal} onDelete={() => deleteTimer(id)}/>
         ))}
       </ScrollView>
     </View>

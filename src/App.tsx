@@ -3,9 +3,18 @@ import { View } from 'react-native';
 import Stopwatch from './components/Stopwatch';
 import StopwatchManager from './screens/StopwatchManager';
 
-function App() {
-  return <View>
-      <StopwatchManager/>
-    </View>;
+
+import { useFonts } from 'expo-font';
+
+
+
+ function App() {
+  const [fontsLoaded] = useFonts({
+    'PixelifySans-Regular': require('../assets/fonts/PixelifySans-SemiBold.ttf'),
+  });
+
+  return <View style={{ flex: 1 }}>
+    <StopwatchManager />
+  </View>
 }
 export default App;

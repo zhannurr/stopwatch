@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useRef } from "react";
 import { stopwatchStyles } from "../styles/stopwatchStyle";
 import { TouchableOpacity, View, Text } from "react-native";
+import { playClickSound } from "../utils/soundUtil";
 
 
 interface StopwatchProps {
@@ -8,7 +9,7 @@ interface StopwatchProps {
     resetSignal: boolean;
     onDelete: () => void;
 }
- 
+
 function Stopwatch({ onDelete, resetSignal }: StopwatchProps){
     const [isRunning, setIsRunning] = useState(false);
     const [elapsedTime, setElapsedTime] = useState(0);
@@ -69,28 +70,36 @@ function Stopwatch({ onDelete, resetSignal }: StopwatchProps){
     }
     return (
         <View style={stopwatchStyles.stopwatch}>
-            <View style={stopwatchStyles.display}>
-                {formatTime()}
+           <View style={stopwatchStyles.display}>
+                <Text style={[stopwatchStyles.textStyle, stopwatchStyles.timeText]}>
+                    {formatTime()}
+                </Text>
             </View>
-            <View>
-                <TouchableOpacity onPress={start} style={stopwatchStyles.button}>
-                    <Text>Start</Text>
+
+            <View style={stopwatchStyles.controllers}>
+                <TouchableOpacity onPress={() => { playClickSound();start();}} style={[stopwatchStyles.button, stopwatchStyles.start]}>
+                    <Text style={stopwatchStyles.textStyle}>start</Text>
                 </TouchableOpacity>
 
-                  <TouchableOpacity onPress={stop}>
-                    <Text>stop</Text>
+                  <TouchableOpacity onPress={() => { playClickSound();stop();}} style={[stopwatchStyles.button, stopwatchStyles.stop]}>
+                    <Text style={stopwatchStyles.textStyle}>stop</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={reset}>
-                    <Text>reset</Text>
+                <TouchableOpacity onPress={() => { playClickSound();reset();}} style={[stopwatchStyles.button, stopwatchStyles.reset]}>
+                    <Text style={stopwatchStyles.textStyle}>reset</Text>
                 </TouchableOpacity>
-
-                <TouchableOpacity onPress={onDelete} style={stopwatchStyles.button}>
-                    <Text>Delete</Text>
+            
+            </View>
+            <View style={{ marginLeft:"auto", marginRight:"auto" }}>
+                
+                <TouchableOpacity onPress={onDelete} style={[stopwatchStyles.button, stopwatchStyles.delete]}>
+                    <Text style={stopwatchStyles.textStyle}>Delete</Text>
                 </TouchableOpacity>
-
 
             </View>
+
+
+
 
             
         </View>
